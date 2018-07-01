@@ -84,7 +84,7 @@ struct jit_uni_pooling_fwd_t: public cpu_primitive_t {
                 ? memory_format::nChw16c
                 : memory_format::nChw8c;
             if (dst_pd_.desc()->format == memory_format::any)
-               CHECK(dst_pd_.set_format(desired_fmt));
+               MKLDNN_CHECK(dst_pd_.set_format(desired_fmt));
             return status::success;
         }
     };
@@ -164,7 +164,7 @@ struct jit_uni_pooling_bwd_t: public cpu_primitive_t {
                 ? memory_format::nChw16c
                 : memory_format::nChw8c;
             if (diff_src_pd_.desc()->format == memory_format::any)
-               CHECK(diff_src_pd_.set_format(desired_fmt));
+               MKLDNN_CHECK(diff_src_pd_.set_format(desired_fmt));
            return status::success;
         }
     };

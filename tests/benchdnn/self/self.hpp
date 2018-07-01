@@ -26,23 +26,23 @@
 
 namespace self {
 
-#define CHECK(c, ...) do { \
+#define MKLDNN_CHECK(c, ...) do { \
     if (!(c)) { \
         printf("[%s:%d] '%s' FAILED ==> ", \
-                __PRETTY_FUNCTION__, __LINE__, STRINGIFY(c)); \
+                __PRETTY_FUNCTION__, __LINE__, MKLDNN_STRINGIFY(c)); \
         printf(" " __VA_ARGS__); \
         printf("\n"); \
         return FAIL; \
     } \
 } while (0)
 
-#define CHECK_EQ(a, b) CHECK((a) == (b), "%d != %d", (int)(a), (int)(b))
-#define CHECK_NE(a, b) CHECK((a) != (b), "%d == %d", (int)(a), (int)(b))
-#define CHECK_CASE_STR_EQ(a, b) CHECK(!strcasecmp(a, b), "'%s' != '%s'", a, b)
-#define CHECK_CASE_STR_NE(a, b) CHECK(strcasecmp(a, b), "'%s' == '%s'", a, b)
+#define CHECK_EQ(a, b) MKLDNN_CHECK((a) == (b), "%d != %d", (int)(a), (int)(b))
+#define CHECK_NE(a, b) MKLDNN_CHECK((a) != (b), "%d == %d", (int)(a), (int)(b))
+#define CHECK_CASE_STR_EQ(a, b) MKLDNN_CHECK(!strcasecmp(a, b), "'%s' != '%s'", a, b)
+#define CHECK_CASE_STR_NE(a, b) MKLDNN_CHECK(strcasecmp(a, b), "'%s' == '%s'", a, b)
 
 #define RUN(f) do { \
-    print(1, "%s ...\n", STRINGIFY(f)); \
+    print(1, "%s ...\n", MKLDNN_STRINGIFY(f)); \
     int rc = f; \
     benchdnn_stat.tests++; \
     if (rc == OK) benchdnn_stat.passed++; \

@@ -89,14 +89,14 @@ struct _gemm_convolution_fwd_t: public cpu_primitive_t {
         virtual status_t set_default_params() override {
             using namespace memory_format;
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nchw));
+                MKLDNN_CHECK(this->src_pd_.set_format(nchw));
             if (this->dst_pd_.desc()->format == any)
-                CHECK(this->dst_pd_.set_format(nchw));
+                MKLDNN_CHECK(this->dst_pd_.set_format(nchw));
             if (this->weights_pd_.desc()->format == any)
-                CHECK(this->weights_pd_.set_format(this->with_groups()
+                MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                             ? goihw : oihw));
             if (this->bias_pd_.desc()->format == any)
-                CHECK(this->bias_pd_.set_format(x));
+                MKLDNN_CHECK(this->bias_pd_.set_format(x));
             return status::success;
         }
 
@@ -227,11 +227,11 @@ struct _gemm_convolution_bwd_data_t: public cpu_primitive_t {
         virtual status_t set_default_params() override {
             using namespace memory_format;
             if (this->diff_src_pd_.desc()->format == any)
-                CHECK(this->diff_src_pd_.set_format(nchw));
+                MKLDNN_CHECK(this->diff_src_pd_.set_format(nchw));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nchw));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nchw));
             if (this->weights_pd_.desc()->format == any)
-                CHECK(this->weights_pd_.set_format(this->with_groups()
+                MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                             ? goihw : oihw));
             return status::success;
         }
@@ -340,14 +340,14 @@ struct _gemm_convolution_bwd_weights_t: public cpu_primitive_t {
         virtual status_t set_default_params() override {
             using namespace memory_format;
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nchw));
+                MKLDNN_CHECK(this->src_pd_.set_format(nchw));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nchw));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nchw));
             if (this->diff_weights_pd_.desc()->format == any)
-                CHECK(this->diff_weights_pd_.set_format(this->with_groups()
+                MKLDNN_CHECK(this->diff_weights_pd_.set_format(this->with_groups()
                             ? goihw : oihw));
             if (this->diff_bias_pd_.desc()->format == any)
-                CHECK(this->diff_bias_pd_.set_format(x));
+                MKLDNN_CHECK(this->diff_bias_pd_.set_format(x));
             return status::success;
         }
     };

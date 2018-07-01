@@ -28,7 +28,7 @@
 #include "mkldnn_debug.hpp"
 
 dir_t str2dir(const char *str) {
-#define CASE(x) if (!strcasecmp(STRINGIFY(x), str)) return x
+#define CASE(x) if (!strcasecmp(MKLDNN_STRINGIFY(x), str)) return x
     CASE(FWD_D);
     CASE(FWD_I);
     CASE(FWD_B);
@@ -42,7 +42,7 @@ dir_t str2dir(const char *str) {
 }
 
 const char *dir2str(dir_t dir) {
-#define CASE(x) if (dir == x) return STRINGIFY(x)
+#define CASE(x) if (dir == x) return MKLDNN_STRINGIFY(x)
     CASE(FWD_D);
     CASE(FWD_I);
     CASE(FWD_B);
@@ -72,7 +72,7 @@ const char *data_kind2str(data_kind_t kind) {
 }
 
 attr_t::scale_t::policy_t attr_t::scale_t::str2policy(const char *str) {
-#define CASE(_plc) if (!strcasecmp(STRINGIFY(_plc), str)) return _plc
+#define CASE(_plc) if (!strcasecmp(MKLDNN_STRINGIFY(_plc), str)) return _plc
     CASE(NONE);
     CASE(COMMON);
     CASE(PER_OC);
@@ -129,7 +129,7 @@ void attr_t::scale_t::scale2str(char *buffer, char **end_b) const {
 }
 
 attr_t::post_ops_t::kind_t attr_t::post_ops_t::str2kind(const char *str) {
-#define CASE(_knd) if (!strcasecmp(STRINGIFY(_knd), str)) return _knd
+#define CASE(_knd) if (!strcasecmp(MKLDNN_STRINGIFY(_knd), str)) return _knd
     CASE(SUM);
     CASE(RELU);
 #undef CASE

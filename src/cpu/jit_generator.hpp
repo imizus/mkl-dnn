@@ -49,7 +49,7 @@
 #endif
 
 #define DECLARE_CPU_JIT_AUX_FUNCTIONS(jit_name) \
-    const char *name() const override { return STRINGIFY(jit_name); } \
+    const char *name() const override { return MKLDNN_STRINGIFY(jit_name); } \
     const char *source_file() const override { return __FILE__; \
     }
 
@@ -97,12 +97,12 @@ template <> struct cpu_isa_traits<avx512_mic_4ops>:
 /* whatever is required to generate string literals... */
 #include "z_magic.hpp"
 #define JIT_IMPL_NAME_HELPER(prefix, isa, suffix_if_any) \
-    (isa == sse42 ? prefix STRINGIFY(sse42) : \
-    (isa == avx2 ? prefix STRINGIFY(avx2) : \
-    (isa == avx512_common ? prefix STRINGIFY(avx512_common) : \
-    (isa == avx512_core ? prefix STRINGIFY(avx512_core) : \
-    (isa == avx512_mic ? prefix STRINGIFY(avx512_mic) : \
-    (isa == avx512_mic_4ops ? prefix STRINGIFY(avx512_mic_4ops) : \
+    (isa == sse42 ? prefix MKLDNN_STRINGIFY(sse42) : \
+    (isa == avx2 ? prefix MKLDNN_STRINGIFY(avx2) : \
+    (isa == avx512_common ? prefix MKLDNN_STRINGIFY(avx512_common) : \
+    (isa == avx512_core ? prefix MKLDNN_STRINGIFY(avx512_core) : \
+    (isa == avx512_mic ? prefix MKLDNN_STRINGIFY(avx512_mic) : \
+    (isa == avx512_mic_4ops ? prefix MKLDNN_STRINGIFY(avx512_mic_4ops) : \
     prefix suffix_if_any))))))
 
 // TODO: move this to jit_generator class?

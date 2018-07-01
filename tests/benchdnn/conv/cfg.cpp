@@ -116,7 +116,7 @@ const _dt_conf_t conf_u8s8u8s32 = {
 
 const dt_conf_t *str2cfg(const char *str) {
 #define CASE(cfg) \
-    if (!strcasecmp(STRINGIFY(cfg), str)) return CONCAT2(conf_,cfg)
+    if (!strcasecmp(MKLDNN_STRINGIFY(cfg), str)) return CONCAT2(conf_,cfg)
     CASE(f32);
     CASE(f32_full);
     CASE(f32_wino);
@@ -133,7 +133,7 @@ const dt_conf_t *str2cfg(const char *str) {
 }
 
 const char *cfg2str(const dt_conf_t *cfg) {
-#define CASE(_cfg) if (cfg == CONCAT2(conf_,_cfg)) return STRINGIFY(_cfg)
+#define CASE(_cfg) if (cfg == CONCAT2(conf_,_cfg)) return MKLDNN_STRINGIFY(_cfg)
     CASE(f32);
     CASE(f32_full);
     CASE(f32_wino);

@@ -462,21 +462,21 @@ status_t jit_avx512_core_u8s8s32x_fwd_kernel::init_conf(jit_conv_conf_t &jcp,
 
     const auto w_format = (with_groups) ? gOIhw4i16o4i : OIhw4i16o4i;
     if (weights_d.format() == any)
-        CHECK(weights_pd.set_format(w_format));
+        MKLDNN_CHECK(weights_pd.set_format(w_format));
     if (!one_of(weights_d.format(), gOIhw4i16o4i, OIhw4i16o4i))
         return status::unimplemented;
 
     if (dst_d.format() == any)
-        CHECK(dst_pd.set_format(nhwc));
+        MKLDNN_CHECK(dst_pd.set_format(nhwc));
     if (dst_d.format() != nhwc)
         return status::unimplemented;
     if (src_d.format() == any)
-        CHECK(src_pd.set_format(nhwc));
+        MKLDNN_CHECK(src_pd.set_format(nhwc));
     if (src_d.format() != nhwc)
         return status::unimplemented;
     if (jcp.with_bias) {
         if (bias_d.format() == any)
-            CHECK(bias_pd.set_format(x));
+            MKLDNN_CHECK(bias_pd.set_format(x));
         if (bias_d.format() != x)
             return status::unimplemented;
     }

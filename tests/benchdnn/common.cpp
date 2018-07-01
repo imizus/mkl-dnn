@@ -112,7 +112,7 @@ benchdnn_timer_t &benchdnn_timer_t::operator=(const benchdnn_timer_t &rhs) {
 
 /* result structure */
 const char *state2str(res_state_t state) {
-#define CASE(x) if (state == x) return STRINGIFY(x)
+#define CASE(x) if (state == x) return MKLDNN_STRINGIFY(x)
     CASE(UNTESTED);
     CASE(PASSED);
     CASE(SKIPPED);

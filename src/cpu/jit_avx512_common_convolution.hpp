@@ -152,19 +152,19 @@ struct jit_avx512_common_convolution_bwd_data_t: public cpu_primitive_t {
             using namespace memory_format;
 
             if (this->diff_src_pd_.desc()->format == any)
-                CHECK(this->diff_src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_src_pd_.set_format(nChw16c));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nChw16c));
             if (this->weights_pd_.desc()->format == any) {
                 if (diff_dst_type == data_type::s16
                  && diff_src_type == data_type::s32
                  && wei_type == data_type::s16) {
-                        CHECK(this->weights_pd_.set_format(this->with_groups() ?
+                        MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups() ?
                                     gOIhw8o16i2o : OIhw8o16i2o));
                  } else if (diff_dst_type == data_type::f32
                          && diff_src_type == data_type::f32
                          && wei_type == data_type::f32) {
-                        CHECK(this->weights_pd_.set_format(this->with_groups()
+                        MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                                     ? gOIhw16o16i : OIhw16o16i));
                       }
             }
@@ -237,12 +237,12 @@ struct jit_avx512_common_convolution_bwd_weights_t: public cpu_primitive_t {
                 using namespace memory_format;
 
                 if (this->src_pd_.desc()->format == any)
-                    CHECK(this->src_pd_.set_format(nChw16c));
+                    MKLDNN_CHECK(this->src_pd_.set_format(nChw16c));
                 if (this->diff_weights_pd_.desc()->format == any)
-                    CHECK(this->diff_weights_pd_.set_format(this->with_groups()
+                    MKLDNN_CHECK(this->diff_weights_pd_.set_format(this->with_groups()
                     ? gOIhw16o16i : OIhw16o16i)); // gOIhw8o16i2o : OIhw8o16i2o
                 if (this->diff_dst_pd_.desc()->format == any)
-                    CHECK(this->diff_dst_pd_.set_format(nChw16c));
+                    MKLDNN_CHECK(this->diff_dst_pd_.set_format(nChw16c));
 
                 return status::success;
             }

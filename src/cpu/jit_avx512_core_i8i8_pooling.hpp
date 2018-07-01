@@ -67,7 +67,7 @@ struct jit_avx512_core_i8i8_pooling_fwd_t : public cpu_primitive_t {
         virtual status_t set_default_params() override {
             using namespace memory_format;
             if (dst_pd_.desc()->format == any)
-                CHECK(dst_pd_.set_format(nhwc));
+                MKLDNN_CHECK(dst_pd_.set_format(nhwc));
             return status::success;
         }
     };

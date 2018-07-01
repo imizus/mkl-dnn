@@ -29,7 +29,7 @@
 namespace conv {
 
 alg_t str2alg(const char *str) {
-#define CASE(_alg) if (!strcasecmp(STRINGIFY(_alg), str)) return _alg
+#define CASE(_alg) if (!strcasecmp(MKLDNN_STRINGIFY(_alg), str)) return _alg
     CASE(DIRECT);
     CASE(WINO);
 #undef CASE
@@ -45,7 +45,7 @@ const char *alg2str(alg_t alg) {
 }
 
 merge_t str2merge(const char *str) {
-#define CASE(_mrg) if (!strcasecmp(STRINGIFY(_mrg), str)) return _mrg
+#define CASE(_mrg) if (!strcasecmp(MKLDNN_STRINGIFY(_mrg), str)) return _mrg
     CASE(NONE);
     CASE(RELU);
 #undef CASE

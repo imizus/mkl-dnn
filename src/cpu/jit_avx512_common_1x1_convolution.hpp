@@ -89,22 +89,22 @@ struct _jit_avx512_common_1x1_convolution_fwd_t : public cpu_primitive_t {
         virtual status_t set_default_params() override {
             using namespace memory_format;
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->src_pd_.set_format(nChw16c));
             if (this->dst_pd_.desc()->format == any)
-                CHECK(this->dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->dst_pd_.set_format(nChw16c));
             if (this->weights_pd_.desc()->format == any) {
                 if (dst_type == data_type::f32 && src_type == data_type::f32
                     && wei_type == data_type::f32)
-                        CHECK(this->weights_pd_.set_format(this->with_groups()
+                        MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                                                 ? gOIhw16i16o : OIhw16i16o));
                 else if (dst_type == data_type::s32
                     && src_type == data_type::s16
                     && wei_type == data_type::s16)
-                        CHECK(this->weights_pd_.set_format(this->with_groups()
+                        MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                                                 ? gOIhw8i16o2i : OIhw8i16o2i));
             }
             if (this->bias_pd_.desc()->format == any)
-                CHECK(this->bias_pd_.set_format(x));
+                MKLDNN_CHECK(this->bias_pd_.set_format(x));
             return status::success;
         }
     };
@@ -207,20 +207,20 @@ struct _jit_avx512_common_1x1_convolution_bwd_data_t : public cpu_primitive_t {
             using namespace memory_format;
 
             if (this->diff_src_pd_.desc()->format == any)
-                CHECK(this->diff_src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_src_pd_.set_format(nChw16c));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nChw16c));
             if (this->weights_pd_.desc()->format == any) {
                 if (diff_dst_type == data_type::f32
                     && diff_src_type == data_type::f32
                     && wei_type == data_type::f32) {
-                    CHECK(this->weights_pd_.set_format(this->with_groups()
+                    MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                         ? gIOhw16o16i : IOhw16o16i));
                 }
                 else if (diff_dst_type == data_type::s16
                     && diff_src_type == data_type::s32
                     && wei_type == data_type::s16)
-                        CHECK(this->weights_pd_.set_format(this->with_groups()
+                        MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                                                 ? gOIhw8o16i2o : OIhw8o16i2o));
             }
 
@@ -330,14 +330,14 @@ struct jit_avx512_common_1x1_convolution_bwd_weights_t : public cpu_primitive_t
             using namespace memory_format;
 
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->src_pd_.set_format(nChw16c));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nChw16c));
             if (this->diff_weights_pd_.desc()->format == any)
-                CHECK(this->diff_weights_pd_.set_format(this->with_groups()
+                MKLDNN_CHECK(this->diff_weights_pd_.set_format(this->with_groups()
                                                 ? gOIhw16i16o : OIhw16i16o));
             if (this->diff_bias_pd_.desc()->format == any)
-                CHECK(this->diff_bias_pd_.set_format(x));
+                MKLDNN_CHECK(this->diff_bias_pd_.set_format(x));
             return status::success;
         }
     };

@@ -78,14 +78,14 @@ struct _gemm_u8s8s32x_convolution_fwd_t: public cpu_primitive_t {
         virtual status_t set_default_params() override {
             using namespace memory_format;
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nhwc));
+                MKLDNN_CHECK(this->src_pd_.set_format(nhwc));
             if (this->dst_pd_.desc()->format == any)
-                CHECK(this->dst_pd_.set_format(nhwc));
+                MKLDNN_CHECK(this->dst_pd_.set_format(nhwc));
             if (this->weights_pd_.desc()->format == any)
-                CHECK(this->weights_pd_.set_format(this->with_groups()
+                MKLDNN_CHECK(this->weights_pd_.set_format(this->with_groups()
                             ? hwigo : hwio));
             if (this->bias_pd_.desc()->format == any)
-                CHECK(this->bias_pd_.set_format(x));
+                MKLDNN_CHECK(this->bias_pd_.set_format(x));
             return status::success;
         }
 

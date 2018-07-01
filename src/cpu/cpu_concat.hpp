@@ -115,7 +115,7 @@ protected:
             for (int i = 0; i < n_; ++i) {
                 out_fmt = nstl::max(out_fmt, src_pds_[i].desc()->format);
             }
-            CHECK(dst_pd_.set_format(out_fmt));
+            MKLDNN_CHECK(dst_pd_.set_format(out_fmt));
         }
 
         return success;

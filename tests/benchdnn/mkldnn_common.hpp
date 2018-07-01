@@ -44,7 +44,7 @@
     if (status != mkldnn_success) { \
         print(0, "error [%s:%d]: '%s' -> %s(%d)\n", \
                 __PRETTY_FUNCTION__, __LINE__, \
-                STRINGIFY(f), status2str(status), (int)status); \
+                MKLDNN_STRINGIFY(f), status2str(status), (int)status); \
         fflush(0); \
         exit(2); \
     } \

@@ -24,7 +24,7 @@
 
 typedef float real_t;
 
-#define CHECK(f) do { \
+#define MKLDNN_CHECK(f) do { \
     mkldnn_status_t s = f; \
     if (s != mkldnn_success) { \
         printf("[%s:%d] error: %s returns %d\n", __FILE__, __LINE__, #f, s); \
@@ -73,7 +73,7 @@ static int doit() {
      */
 
     mkldnn_engine_t engine;
-    CHECK(mkldnn_engine_create(&engine, mkldnn_cpu, 0 /* idx */));
+    MKLDNN_CHECK(mkldnn_engine_create(&engine, mkldnn_cpu, 0 /* idx */));
 
     /* first describe user data and create data descriptors for future
     * pooling w/ the specified format -- we do not want to do a reorder */
@@ -82,34 +82,34 @@ static int doit() {
     mkldnn_memory_desc_t p1_src_md;
     mkldnn_memory_primitive_desc_t p1_src_pd;
     mkldnn_primitive_t p1_src;
-    CHECK(mkldnn_tensor_desc_init(&p1_src_tz, 4, p1_src_sizes));
-    CHECK(mkldnn_memory_desc_init(&p1_src_md, &p1_src_tz, mkldnn_f32, mkldnn_nchw));
-    CHECK(mkldnn_memory_primitive_desc_init(&p1_src_pd, &p1_src_md, engine));
+    MKLDNN_CHECK(mkldnn_tensor_desc_init(&p1_src_tz, 4, p1_src_sizes));
+    MKLDNN_CHECK(mkldnn_memory_desc_init(&p1_src_md, &p1_src_tz, mkldnn_f32, mkldnn_nchw));
+    MKLDNN_CHECK(mkldnn_memory_primitive_desc_init(&p1_src_pd, &p1_src_md, engine));
     real_t *src = (real_t*)calloc(tensor_size(&p1_src_md.tensor_desc), sizeof(real_t));
-    CHECK(mkldnn_memory_create(&p1_src, &p1_src_pd, src));
+    MKLDNN_CHECK(mkldnn_memory_create(&p1_src, &p1_src_pd, src));
 
     int p1_dst_sizes[4] = { 16, 96, 27, 27 };
     mkldnn_tensor_desc_t p1_dst_tz;
     mkldnn_memory_desc_t p1_dst_md;
     mkldnn_memory_primitive_desc_t p1_dst_pd;
     mkldnn_primitive_t p1_dst;
-    CHECK(mkldnn_tensor_desc_init(&p1_dst_tz, 4, p1_dst_sizes));
-    CHECK(mkldnn_memory_desc_init(&p1_dst_md, &p1_dst_tz, mkldnn_f32, mkldnn_nchw));
-    CHECK(mkldnn_memory_primitive_desc_init(&p1_dst_pd, &p1_dst_md, engine));
+    MKLDNN_CHECK(mkldnn_tensor_desc_init(&p1_dst_tz, 4, p1_dst_sizes));
+    MKLDNN_CHECK(mkldnn_memory_desc_init(&p1_dst_md, &p1_dst_tz, mkldnn_f32, mkldnn_nchw));
+    MKLDNN_CHECK(mkldnn_memory_primitive_desc_init(&p1_dst_pd, &p1_dst_md, engine));
     real_t *dst = (real_t*)calloc(tensor_size(&p1_dst_md.tensor_desc), sizeof(real_t));
-    CHECK(mkldnn_memory_create(&p1_dst, &p1_dst_pd, dst));
+    MKLDNN_CHECK(mkldnn_memory_create(&p1_dst, &p1_dst_pd, dst));
 
     int strides[] = { 2, 2 };
     int kernel [] = { 3, 3 };
     int32_t  padding[] = { 0, 0 };
     mkldnn_pooling_desc_t p1_desc;
     mkldnn_pooling_primitive_desc_t p1_pd;
-    CHECK(mkldnn_pooling_desc_init(&p1_desc, mkldnn_forward, mkldnn_pooling_max,
+    MKLDNN_CHECK(mkldnn_pooling_desc_init(&p1_desc, mkldnn_forward, mkldnn_pooling_max,
         &p1_src_md, &p1_dst_md, strides, kernel, padding, mkldnn_padding_zero));
-    CHECK(mkldnn_pooling_primitive_desc_init(&p1_pd, &p1_desc, engine));
+    MKLDNN_CHECK(mkldnn_pooling_primitive_desc_init(&p1_pd, &p1_desc, engine));
 
     mkldnn_primitive_t p1_indices;
-    CHECK(mkldnn_memory_create(&p1_indices, &p1_pd.indices_primitive_desc, NULL));
+    MKLDNN_CHECK(mkldnn_memory_create(&p1_indices, &p1_pd.indices_primitive_desc, NULL));
 
     /* create a pooling */
     mkldnn_primitive_t p1;
@@ -119,7 +119,7 @@ static int doit() {
     };
     const_mkldnn_primitive_t p1_dsts[] = { p1_dst };
 
-    CHECK(mkldnn_primitive_create(&p1, &p1_pd, p1_srcs, p1_dsts));
+    MKLDNN_CHECK(mkldnn_primitive_create(&p1, &p1_pd, p1_srcs, p1_dsts));
 
     assert(mkldnn_memory_primitive_desc_equal(&p1_pd.src_primitive_desc, &p1_src_pd));
     assert(mkldnn_memory_primitive_desc_equal(&p1_pd.dst_primitive_desc, &p1_dst_pd));
@@ -128,12 +128,12 @@ static int doit() {
 
     /* let us build a net */
     mkldnn_stream_t stream;
-    CHECK(mkldnn_stream_create(&stream));
-    CHECK(mkldnn_stream_submit(stream, 1, &p1, NULL));
-    CHECK(mkldnn_stream_wait(stream, 1, NULL));
+    MKLDNN_CHECK(mkldnn_stream_create(&stream));
+    MKLDNN_CHECK(mkldnn_stream_submit(stream, 1, &p1, NULL));
+    MKLDNN_CHECK(mkldnn_stream_wait(stream, 1, NULL));
 
     /* clean-up */
-    CHECK(mkldnn_stream_destroy(stream));
+    MKLDNN_CHECK(mkldnn_stream_destroy(stream));
     mkldnn_primitive_destroy(p1);
     mkldnn_primitive_destroy(p1_src);
     mkldnn_primitive_destroy(p1_indices);

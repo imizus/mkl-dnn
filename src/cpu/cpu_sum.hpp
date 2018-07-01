@@ -88,7 +88,7 @@ protected:
             /* the stupidest ever heuristics */
             for (int i = 0; i < n_; ++i)
                 dst_fmt = nstl::max(dst_fmt, src_pds_[i].desc()->format);
-            CHECK(dst_pd_.set_format(dst_fmt));
+            MKLDNN_CHECK(dst_pd_.set_format(dst_fmt));
         }
 
         return success;

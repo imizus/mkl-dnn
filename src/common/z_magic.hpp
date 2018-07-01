@@ -21,7 +21,7 @@
 #define CONCAT2(a,b) CONCAt2(a,b)
 
 #define STRINGIFy(s) #s
-#define STRINGIFY(s) STRINGIFy(s)
+#define MKLDNN_STRINGIFY(s) STRINGIFy(s)
 
 #endif
 

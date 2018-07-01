@@ -61,13 +61,13 @@ protected:
     virtual status_t set_default_params() {
         using namespace memory_format;
         if (src_pd_.desc()->format == any)
-            CHECK(src_pd_.set_format(ndims() == 4 ? nchw : nc));
+            MKLDNN_CHECK(src_pd_.set_format(ndims() == 4 ? nchw : nc));
         if (dst_pd_.desc()->format == any)
-            CHECK(dst_pd_.set_format(nc));
+            MKLDNN_CHECK(dst_pd_.set_format(nc));
         if (weights_pd_.desc()->format == any)
-            CHECK(weights_pd_.set_format(ndims() == 4 ? oihw : oi));
+            MKLDNN_CHECK(weights_pd_.set_format(ndims() == 4 ? oihw : oi));
         if (bias_pd_.desc()->format == any)
-            CHECK(bias_pd_.set_format(x));
+            MKLDNN_CHECK(bias_pd_.set_format(x));
         return status::success;
     }
 };
@@ -99,11 +99,11 @@ protected:
     virtual status_t set_default_params() {
         using namespace memory_format;
         if (diff_src_pd_.desc()->format == any)
-            CHECK(diff_src_pd_.set_format(ndims() == 4 ? nchw : nc));
+            MKLDNN_CHECK(diff_src_pd_.set_format(ndims() == 4 ? nchw : nc));
         if (diff_dst_pd_.desc()->format == any)
-            CHECK(diff_dst_pd_.set_format(nc));
+            MKLDNN_CHECK(diff_dst_pd_.set_format(nc));
         if (weights_pd_.desc()->format == any)
-            CHECK(weights_pd_.set_format(ndims() == 4 ? oihw : oi));
+            MKLDNN_CHECK(weights_pd_.set_format(ndims() == 4 ? oihw : oi));
         return status::success;
     }
 };
@@ -141,13 +141,13 @@ protected:
     virtual status_t set_default_params() {
         using namespace memory_format;
         if (src_pd_.desc()->format == any)
-            CHECK(src_pd_.set_format(ndims() == 4 ? nchw : nc));
+            MKLDNN_CHECK(src_pd_.set_format(ndims() == 4 ? nchw : nc));
         if (diff_dst_pd_.desc()->format == any)
-            CHECK(diff_dst_pd_.set_format(nc));
+            MKLDNN_CHECK(diff_dst_pd_.set_format(nc));
         if (diff_weights_pd_.desc()->format == any)
-            CHECK(diff_weights_pd_.set_format(ndims() == 4 ? oihw : oi));
+            MKLDNN_CHECK(diff_weights_pd_.set_format(ndims() == 4 ? oihw : oi));
         if (diff_bias_pd_.desc()->format == any)
-            CHECK(diff_bias_pd_.set_format(x));
+            MKLDNN_CHECK(diff_bias_pd_.set_format(x));
         return status::success;
     }
 };

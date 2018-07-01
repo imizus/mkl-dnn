@@ -28,7 +28,7 @@ namespace impl {
 #define UNUSED(x) ((void)x)
 #define MAYBE_UNUSED(x) UNUSED(x)
 
-#define CHECK(f) do { \
+#define MKLDNN_CHECK(f) do { \
     status_t status = f; \
     if (status != status::success) \
     return status; \

@@ -34,7 +34,7 @@
 #define MAX3(a,b,c) MAX2(a,MAX2(b,c))
 
 #define STRINGIFy(s) #s
-#define STRINGIFY(s) STRINGIFy(s)
+#define MKLDNN_STRINGIFY(s) STRINGIFy(s)
 
 #define CONCAt2(a,b) a ## b
 #define CONCAT2(a,b) CONCAt2(a,b)
@@ -55,7 +55,7 @@ enum { CRIT = 1, WARN = 2 };
     if (status != OK) { \
         if (s == CRIT || s == WARN) { \
             fprintf(stderr, "@@@ error [%s:%d]: '%s' -> %d\n", \
-                    __PRETTY_FUNCTION__, __LINE__, STRINGIFY(f), status); \
+                    __PRETTY_FUNCTION__, __LINE__, MKLDNN_STRINGIFY(f), status); \
             fflush(0); \
             if (s == CRIT) exit(1); \
         } \
@@ -67,7 +67,7 @@ enum { CRIT = 1, WARN = 2 };
     int status = f; \
     if (status != OK) { \
         fprintf(stderr, "@@@ error [%s:%d]: '%s' -> %d\n", \
-                __PRETTY_FUNCTION__, __LINE__, STRINGIFY(f), status); \
+                __PRETTY_FUNCTION__, __LINE__, MKLDNN_STRINGIFY(f), status); \
         fflush(0); \
         exit(1); \
     } \

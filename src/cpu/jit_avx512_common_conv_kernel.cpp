@@ -913,25 +913,25 @@ status_t jit_avx512_common_conv_fwd_kernel::init_conf(jit_conv_conf_t &jcp,
         return status::unimplemented;
 
     if (dst_d.format() == any)
-        CHECK(dst_pd.set_format(nChw16c));
+        MKLDNN_CHECK(dst_pd.set_format(nChw16c));
     if (dst_d.format() != nChw16c)
         return status::unimplemented;
 
     if (jcp.is_1stconv) {
         if (src_d.format() == any)
-            CHECK(src_pd.set_format(nchw));
+            MKLDNN_CHECK(src_pd.set_format(nchw));
         if (src_d.format() != nchw)
             return status::unimplemented;
     } else {
         if (src_d.format() == any)
-            CHECK(src_pd.set_format(nChw16c));
+            MKLDNN_CHECK(src_pd.set_format(nChw16c));
         if (src_d.format() != nChw16c)
             return status::unimplemented;
     }
     jcp.with_bias = cd.bias_desc.format != memory_format::undef;
     if (jcp.with_bias) {
         if (bias_d.format() == any)
-            CHECK(bias_pd.set_format(x));
+            MKLDNN_CHECK(bias_pd.set_format(x));
         if (bias_d.format() != x)
             return status::unimplemented;
     }
@@ -954,7 +954,7 @@ status_t jit_avx512_common_conv_fwd_kernel::init_conf(jit_conv_conf_t &jcp,
 
         const auto w_format = with_groups ? gOIhw8i16o2i : OIhw8i16o2i;
         if (weights_d.format() == any)
-            CHECK(weights_pd.set_format(w_format));
+            MKLDNN_CHECK(weights_pd.set_format(w_format));
         if (!one_of(weights_d.format(), gOIhw8i16o2i, OIhw8i16o2i))
             return status::unimplemented;
     } else if (mayiuse(avx512_common) &&
@@ -976,20 +976,20 @@ status_t jit_avx512_common_conv_fwd_kernel::init_conf(jit_conv_conf_t &jcp,
             if (jcp.ver == ver_4fma) {
                 const auto w_format = (with_groups) ? gOihw16o : Oihw16o;
                 if (weights_d.format() == any)
-                    CHECK(weights_pd.set_format(w_format));
+                    MKLDNN_CHECK(weights_pd.set_format(w_format));
                 if (!one_of(weights_d.format(), Oihw16o, gOihw16o))
                     return status::unimplemented;
             } else {
                 const auto w_format = (with_groups) ? gOhwi16o : Ohwi16o;
                 if (weights_d.format() == any)
-                    CHECK(weights_pd.set_format(w_format));
+                    MKLDNN_CHECK(weights_pd.set_format(w_format));
                 if (!one_of(weights_d.format(), Ohwi16o, gOhwi16o))
                     return status::unimplemented;
             }
         } else {
             const auto w_format = (with_groups) ? gOIhw16i16o : OIhw16i16o;
             if (weights_d.format() == any)
-                CHECK(weights_pd.set_format(w_format));
+                MKLDNN_CHECK(weights_pd.set_format(w_format));
             if (!one_of(weights_d.format(), OIhw16i16o, gOIhw16i16o))
                 return status::unimplemented;
         }
@@ -3465,7 +3465,7 @@ status_t jit_avx512_common_conv_bwd_weights_kernel_f32::init_conf(
     jcp.with_bias = cd.diff_bias_desc.format != memory_format::undef;
     if (jcp.with_bias) {
         if (diff_bias_d.format() == any)
-            CHECK(diff_bias_pd.set_format(x));
+            MKLDNN_CHECK(diff_bias_pd.set_format(x));
         if (diff_bias_d.format() != x)
             return status::unimplemented;
     }
@@ -3477,7 +3477,7 @@ status_t jit_avx512_common_conv_bwd_weights_kernel_f32::init_conf(
     jcp.nb_oc = jcp.oc / jcp.oc_block;
 
     if (diff_dst_d.format() == any)
-        CHECK(diff_dst_pd.set_format(nChw16c));
+        MKLDNN_CHECK(diff_dst_pd.set_format(nChw16c));
     if (diff_dst_d.format() != nChw16c)
         return status::unimplemented;
 
@@ -3505,7 +3505,7 @@ status_t jit_avx512_common_conv_bwd_weights_kernel_f32::init_conf(
     jcp.is_1stconv = is_1stconv(jcp);
     if (jcp.is_1stconv) {
         if (src_d.format() == any)
-            CHECK(src_pd.set_format(nchw));
+            MKLDNN_CHECK(src_pd.set_format(nchw));
 
         const bool src_ok = true
             && utils::everyone_is(data_type::f32,
@@ -3539,14 +3539,14 @@ status_t jit_avx512_common_conv_bwd_weights_kernel_f32::init_conf(
             jcp.tr_ld = tr_ld;
             jcp.ic_block = 1;
             if (diff_weights_d.format() == any)
-                CHECK(diff_weights_pd.set_format(want_4fma_wfmt));
+                MKLDNN_CHECK(diff_weights_pd.set_format(want_4fma_wfmt));
         } else {
             jcp.ver = ver_fma;
             jcp.ic_block = jcp.ic;
 
             const auto want_wfmt = with_groups ? gOhwi16o : Ohwi16o;
             if (diff_weights_d.format() == any)
-                CHECK(diff_weights_pd.set_format(want_wfmt));
+                MKLDNN_CHECK(diff_weights_pd.set_format(want_wfmt));
             if (diff_weights_d.format() != want_wfmt)
                 return status::unimplemented;
         }
@@ -3555,9 +3555,9 @@ status_t jit_avx512_common_conv_bwd_weights_kernel_f32::init_conf(
         jcp.src_fmt = src_d.format();
     } else {
         if (src_d.format() == any)
-            CHECK(src_pd.set_format(nChw16c));
+            MKLDNN_CHECK(src_pd.set_format(nChw16c));
         if (diff_weights_d.format() == any)
-            CHECK(diff_weights_pd.set_format(with_groups
+            MKLDNN_CHECK(diff_weights_pd.set_format(with_groups
                         ? gOIhw16i16o : OIhw16i16o));
 
         const bool ok = true

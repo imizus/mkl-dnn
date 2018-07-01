@@ -35,7 +35,7 @@ const char *status2str(mkldnn_status_t status) {
 }
 
 const char *dt2str(mkldnn_data_type_t dt) {
-#define CASE(_dt) if (CONCAT2(mkldnn_, _dt) == dt) return STRINGIFY(_dt)
+#define CASE(_dt) if (CONCAT2(mkldnn_, _dt) == dt) return MKLDNN_STRINGIFY(_dt)
     CASE(s8);
     CASE(u8);
     CASE(s16);
@@ -48,8 +48,8 @@ const char *dt2str(mkldnn_data_type_t dt) {
 
 mkldnn_data_type_t str2dt(const char *str) {
 #define CASE(_dt) \
-    if (!strcasecmp(STRINGIFY(_dt), str) \
-            || !strcasecmp(STRINGIFY(CONCAT2(mkldnn_, _dt)), str)) \
+    if (!strcasecmp(MKLDNN_STRINGIFY(_dt), str) \
+            || !strcasecmp(MKLDNN_STRINGIFY(CONCAT2(mkldnn_, _dt)), str)) \
         return CONCAT2(mkldnn_, _dt);
     CASE(s8);
     CASE(u8);
@@ -63,7 +63,7 @@ mkldnn_data_type_t str2dt(const char *str) {
 
 const char *rmode2str(mkldnn_round_mode_t rmode) {
 #define CASE(_rmode) \
-    if (CONCAT2(mkldnn_round_, _rmode) == rmode) return STRINGIFY(_rmode)
+    if (CONCAT2(mkldnn_round_, _rmode) == rmode) return MKLDNN_STRINGIFY(_rmode)
     CASE(nearest);
     CASE(down);
 #undef CASE
@@ -73,7 +73,7 @@ const char *rmode2str(mkldnn_round_mode_t rmode) {
 
 mkldnn_round_mode_t str2rmode(const char *str) {
 #define CASE(_rmd) do { \
-    if (!strncasecmp(STRINGIFY(_rmd), str, strlen(STRINGIFY(_rmd)))) \
+    if (!strncasecmp(MKLDNN_STRINGIFY(_rmd), str, strlen(MKLDNN_STRINGIFY(_rmd)))) \
         return CONCAT2(mkldnn_round_, _rmd); \
 } while (0)
     CASE(nearest);
@@ -84,7 +84,7 @@ mkldnn_round_mode_t str2rmode(const char *str) {
 }
 
 const char *fmt2str(mkldnn_memory_format_t fmt) {
-#define CASE(_fmt) if (CONCAT2(mkldnn_, _fmt) == fmt) return STRINGIFY(_fmt)
+#define CASE(_fmt) if (CONCAT2(mkldnn_, _fmt) == fmt) return MKLDNN_STRINGIFY(_fmt)
     CASE(x);
     CASE(nc);
     CASE(nchw);
@@ -100,8 +100,8 @@ const char *fmt2str(mkldnn_memory_format_t fmt) {
 
 mkldnn_memory_format_t str2fmt(const char *str) {
 #define CASE(_fmt) do { \
-    if (!strcmp(STRINGIFY(_fmt), str) \
-            || !strcmp("mkldnn_" STRINGIFY(_fmt), str)) \
+    if (!strcmp(MKLDNN_STRINGIFY(_fmt), str) \
+            || !strcmp("mkldnn_" MKLDNN_STRINGIFY(_fmt), str)) \
         return CONCAT2(mkldnn_, _fmt); \
 } while (0)
     CASE(x);

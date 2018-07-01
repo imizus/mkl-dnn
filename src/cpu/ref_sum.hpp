@@ -63,7 +63,7 @@ struct ref_sum_t: public cpu_primitive_t {
             nstl::vector<primitive_t *> reorders;
             reorders.resize(n_);
             for (int i = 0; i < n_; ++i)
-                CHECK(reorder_pds_[i]->create_primitive(&reorders[i],
+                MKLDNN_CHECK(reorder_pds_[i]->create_primitive(&reorders[i],
                             &inputs[i], outputs));
 
             primitive_t::input_vector ins(inputs, inputs + n_);

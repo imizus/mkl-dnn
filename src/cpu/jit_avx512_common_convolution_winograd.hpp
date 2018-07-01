@@ -249,14 +249,14 @@ struct _jit_avx512_common_convolution_winograd_fwd_t
         {
             using namespace memory_format;
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->src_pd_.set_format(nChw16c));
             if (this->dst_pd_.desc()->format == any)
-                CHECK(this->dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->dst_pd_.set_format(nChw16c));
             if (this->weights_pd_.desc()->format == any)
-                CHECK(this->weights_pd_.set_format(
+                MKLDNN_CHECK(this->weights_pd_.set_format(
                         this->with_groups() ? gOIhw16i16o : OIhw16i16o));
             if (this->bias_pd_.desc()->format == any)
-                CHECK(this->bias_pd_.set_format(x));
+                MKLDNN_CHECK(this->bias_pd_.set_format(x));
             return status::success;
         }
     };
@@ -344,11 +344,11 @@ struct jit_avx512_common_convolution_winograd_bwd_data_t
             using namespace memory_format;
 
             if (this->diff_src_pd_.desc()->format == any)
-                CHECK(this->diff_src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_src_pd_.set_format(nChw16c));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nChw16c));
             if (this->weights_pd_.desc()->format == any)
-                CHECK(this->weights_pd_.set_format(
+                MKLDNN_CHECK(this->weights_pd_.set_format(
                         this->with_groups() ? gOIhw16i16o : OIhw16i16o));
             return status::success;
         }
@@ -436,14 +436,14 @@ struct jit_avx512_common_convolution_winograd_bwd_weights_t
             using namespace memory_format;
 
             if (this->src_pd_.desc()->format == any)
-                CHECK(this->src_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->src_pd_.set_format(nChw16c));
             if (this->diff_dst_pd_.desc()->format == any)
-                CHECK(this->diff_dst_pd_.set_format(nChw16c));
+                MKLDNN_CHECK(this->diff_dst_pd_.set_format(nChw16c));
             if (this->diff_weights_pd_.desc()->format == any)
-                CHECK(this->diff_weights_pd_.set_format(
+                MKLDNN_CHECK(this->diff_weights_pd_.set_format(
                         this->with_groups() ? gOIhw16i16o : OIhw16i16o));
             if (diff_bias_pd_.desc()->format == any)
-                CHECK(diff_bias_pd_.set_format(x));
+                MKLDNN_CHECK(diff_bias_pd_.set_format(x));
             return status::success;
         }
     };
